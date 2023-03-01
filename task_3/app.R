@@ -53,16 +53,16 @@ ui <- fluidPage(theme = my_theme,
                                    ) 
                                    ),
                            tabPanel('Date'),
-                            tabPanel('map 2',
+                           tabPanel('map 2',
                                      mainPanel('Output',
                                                leafletOutput('location_geo') 
                                                )        
                 ))
 )
-    # Application title
+  
   
 
-# Define server logic required to draw a histogram
+# Server for histogram
 server <- function(input, output) {
   
   coral_reactive <- reactive({
@@ -75,17 +75,20 @@ server <- function(input, output) {
       geom_point(aes(color = genus)) + scale_color_manual(values = c('poc' = '#4dbedf', 'acr' = '#ea7070', 'NA' = '#fdc4b6')) +
       theme_minimal()
   )
-  
-} # end of coral server
+} # end of histogram server
 
 
+
+# Server for map 2
 server_2 <- function(input, output, session) {
+  
+ map_reactive = reactive ({ location_geo
+ 
+  })
   output$location_geo <- renderLeaflet({
     location_geo <- st_as_sf(location, coords = c('long', 'lat'),
                              crs = 4326) 
-
-  })
-}
+} # end of map 2 function
 
 
 # Run the application 

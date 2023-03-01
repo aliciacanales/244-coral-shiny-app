@@ -26,10 +26,10 @@ my_theme <- bs_theme(
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(theme = my_theme,
-                navbarPage("title",
-                           tabPanel('About the Study',
+                navbarPage("Coral Across Northshore Moorea",
+                           tabPanel('About',
                                     mainPanel(
-                                      h1('Summary of the study'),
+                                      h1('Overview of the Study'),
                                       h2('To visualize the spatial distribution of coral sizes across the northshore of Moorea based on genus and available settlement area'),
                                       h6('Alicia Canales, Kat Mackay, Danielle Hoekstra')
                                     )),

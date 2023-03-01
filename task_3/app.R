@@ -13,8 +13,8 @@ library(bslib)
 library(lubridate)
 library(here)
 
-coral <- readxl::read_excel(here('data', 'coral_data_244.xls')) %>% 
-  mutate(date = ymd(date))
+coral <- readxl::read_excel(here('data', 'coral_data_244_akd.xls')) %>% 
+  mutate(date = ymd(date)) 
 
 my_theme <- bs_theme(
   bg = '#B7D1DA',
@@ -63,7 +63,8 @@ server <- function(input, output) {
   
   output$coral_plot <- renderPlot(
     ggplot(data = coral_reactive(), aes(x = length, y = width)) +
-      geom_point(aes(color = genus))
+      geom_point(aes(color = genus)) + scale_color_manual(values = c('poc' = '#4dbedf', 'acr' = '#ea7070', 'NA' = '#fdc4b6')) +
+      theme_minimal()
   )
   
 }

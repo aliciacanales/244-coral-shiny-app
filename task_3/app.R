@@ -12,9 +12,12 @@ library(shiny)
 library(bslib)
 library(lubridate)
 library(here)
+#install.packages("mapview")
 library(mapview)
 library(sf)
 library(leaflet)
+install.packages("rio")
+library(rio)
 
 coral <- readxl::read_excel(here('data', 'coral_data_244_akd.xls')) %>% 
   mutate(date = ymd(date)) 
@@ -88,7 +91,8 @@ server_2 <- function(input, output, session) {
   output$location_geo <- renderLeaflet({
     location_geo <- st_as_sf(location, coords = c('long', 'lat'),
                              crs = 4326) 
-} # end of map 2 function
+})
+  } # end of map 2 function
 
 
 # Run the application 

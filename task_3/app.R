@@ -12,9 +12,16 @@ library(shiny)
 library(bslib)
 library(lubridate)
 library(here)
+library(mapview)
+library(sf)
+library(leaflet)
 
 coral <- readxl::read_excel(here('data', 'coral_data_244_akd.xls')) %>% 
   mutate(date = ymd(date)) 
+location <- rio::import(here('data','coral_data_244_akd.xls'))
+location_geo <- st_as_sf(location, coords = c('long', 'lat'),
+                         crs = 4326) 
+mapview(location_geo, map.types = "OpenStreetMap.DE") 
 
 my_theme <- bs_theme(
   bg = '#B7D1DA',
@@ -24,7 +31,6 @@ my_theme <- bs_theme(
 )
 
 
-# Define UI for application that draws a histogram
 ui <- fluidPage(theme = my_theme,
                 navbarPage("Coral Across Northshore Moorea",
                            tabPanel('About',
@@ -47,8 +53,11 @@ ui <- fluidPage(theme = my_theme,
                                    ) 
                                    ),
                            tabPanel('Date'),
-                            tabPanel('map 2')
-                )
+                            tabPanel('map 2',
+                                     mainPanel('Output',
+                                               leafletOutput('location_geo') 
+                                               )        
+                ))
 )
     # Application title
   
@@ -67,7 +76,17 @@ server <- function(input, output) {
       theme_minimal()
   )
   
+} # end of coral server
+
+
+server_2 <- function(input, output, session) {
+  output$location_geo <- renderLeaflet({
+    location_geo <- st_as_sf(location, coords = c('long', 'lat'),
+                             crs = 4326) 
+
+  })
 }
+
 
 # Run the application 
 shinyApp(ui = ui, server = server)

@@ -68,6 +68,9 @@ ui <- fluidPage(theme = my_theme,
 # Server for histogram
 server <- function(input, output) {
   
+  
+  
+  #### Tab 1
   coral_reactive <- reactive({
     coral %>%
       filter(genus %in% input$pick_species)
@@ -78,10 +81,19 @@ server <- function(input, output) {
       geom_point(aes(color = genus)) + scale_color_manual(values = c('poc' = '#4dbedf', 'acr' = '#ea7070', 'NA' = '#fdc4b6')) +
       theme_minimal()
   )
+  
+  ### Tab 2
+  
+  ## we don't need to create a new subset - we add them within the pink {} and then up in the tabs we reference the output that we want displayed on each tab
+  
+  output$location_geo<-renderLeaflet(
+    leaflet(location_geo)
+    
+  )
 } # end of histogram server
 
 
-
+## we dont need whats below here but I am keeping it for now so I don't delete anything we may potentially need !
 # Server for map 2
 server_2 <- function(input, output, session) {
   
@@ -91,6 +103,8 @@ server_2 <- function(input, output, session) {
   output$location_geo <- renderLeaflet({
     location_geo <- st_as_sf(location, coords = c('long', 'lat'),
                              crs = 4326) 
+    
+    leaflet(location_geo)
 })
   } # end of map 2 function
 

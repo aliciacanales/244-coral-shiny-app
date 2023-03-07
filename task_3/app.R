@@ -25,6 +25,8 @@ location <- rio::import(here('data','coral_data_244_akd.xls'))
 location_geo <- st_as_sf(location, coords = c('long', 'lat'),
                          crs = 4326) 
 mapview(location_geo, map.types = "OpenStreetMap.DE") 
+location_geo <- st_as_sf(location, coords = c('long', 'lat'),
+                         crs = 4326) 
 
 my_theme <- bs_theme(
   bg = '#B7D1DA',
@@ -86,27 +88,14 @@ server <- function(input, output) {
   
   ## we don't need to create a new subset - we add them within the pink {} and then up in the tabs we reference the output that we want displayed on each tab
   
-  output$location_geo<-renderLeaflet(
+  output$location_geo <- renderLeaflet(
     leaflet(location_geo)
     
   )
 } # end of histogram server
 
 
-## we dont need whats below here but I am keeping it for now so I don't delete anything we may potentially need !
-# Server for map 2
-server_2 <- function(input, output, session) {
-  
- map_reactive = reactive ({ location_geo
- 
-  })
-  output$location_geo <- renderLeaflet({
-    location_geo <- st_as_sf(location, coords = c('long', 'lat'),
-                             crs = 4326) 
-    
-    leaflet(location_geo)
-})
-  } # end of map 2 function
+
 
 
 # Run the application 
